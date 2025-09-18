@@ -1,0 +1,34 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main{
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(15, 15, 15);
+}
+.allcontent{
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding-bottom: 10px;
+}
+.dropdowncon{
+  width: 100%;
+  background-color: rgb(15, 15, 15);
+  /* height: 3.8rem; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  /* align-items: center; */
+  /* justify-content:; */
+  /* margin-left: 1rem; */
+  /* margin-right: 1rem; */
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  
+}
