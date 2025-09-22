@@ -1,6 +1,6 @@
 import userModel from "../model/user.js";
 
-// Get all usersnode
+// Get all users
 function getUsers(req, res) {
     userModel.getAllUsers((err, result) => {
         if (err) return res.status(500).json({ error: "DB error" });
@@ -10,8 +10,6 @@ function getUsers(req, res) {
 
 // Create user
 function createUser(req, res) {
-    console.log("➡️ Request body:", req.body);
-
     const { title, descrip, type, timeToComplete, visibility } = req.body;
 
     if (!title || !type) {
@@ -28,10 +26,7 @@ function createUser(req, res) {
         userModel.addUser(
             { title, descrip, type, timeToComplete, visibility },
             (err, result) => {
-                if (err) {
-                    console.error("❌ DB Insert Error:", err);
-                    return res.status(500).json({ error: "Error adding user" });
-                }
+                if (err) return res.status(500).json({ error: "Error adding user" });
 
                 res.status(201).json({
                     id: result.insertId,
@@ -71,10 +66,7 @@ function deleteUser(req, res) {
     const { id } = req.params;
 
     userModel.deleteUser(id, (err, result) => {
-        if (err) {
-            console.error("Delete error:", err);
-            return res.status(500).json({ error: "DB delete error" });
-        }
+        if (err) return res.status(500).json({ error: "DB delete error" });
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: "User not found" });

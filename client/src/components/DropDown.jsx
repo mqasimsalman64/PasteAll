@@ -1,24 +1,18 @@
+// DropDown.jsx
+import React, { forwardRef } from "react";
 import "./DropDown.css";
-import React from "react";
 
-const DropDown = (props) => {
-  const handleChange = (e) => {
-    props.onChange(e.target.value);
-  };
-
+const DropDown = forwardRef(({ name, value, options, onChange }, ref) => {
   return (
     <div className="dropDownContainer">
-      <select 
-        name={props.name} 
-        value={props.value}   // ✅ controlled
-        onChange={handleChange}
+      <select
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        ref={ref}
       >
-        {/* Optional placeholder if no value is selected */}
-        {props.defaultValue === "" && (
-          <option value="">-- Select --</option>
-        )}
-
-        {props.options.map((opt) => (
+        <option value="">Select</option>
+        {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}
           </option>
@@ -26,6 +20,6 @@ const DropDown = (props) => {
       </select>
     </div>
   );
-};
+});
 
 export default DropDown;

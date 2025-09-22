@@ -1,16 +1,49 @@
 import React from "react";
 import "./DropDown.css";
 
-const AllPastes = ({ search, users,updateuser,setupdateUser,searchid,setSearchid}) => {
-  // Find the user matching the selected title
+const AllPastes = ({
+  search,
+  users,
+  setUpdateTitle,
+  setDescrip,
+  setType,
+  setPrivacy,
+  setTimeToComplete,
+  setSearchId,
+  typeRef,
+  deleteUser,// 🔑 new ref
+  clearForm
+}) => {
   const selectedUser = users.find((user) => user.title === search);
 
-  const Editbtnfunction=(e)=>{
-    const selectedUser = users.find((user) => user.title === search);
-    setupdateUser(selectedUser.title);
-    setSearchid(selectedUser.id);
-    
-  }
+const handleDelete = () => {
+  if (!selectedUser) return;
+
+  // setSearchId(selectedUser.id);
+  deleteUser(selectedUser.id); // 👈 actually call deleteUser()
+  console.log("🗑️ Deleting:", selectedUser.id);
+      clearForm();
+  
+};
+
+  const handleEditClick = () => {
+    if (!selectedUser) return;
+
+    // Send values back to parent form
+    setUpdateTitle(selectedUser.title);
+    setDescrip(selectedUser.descrip);
+    setType(selectedUser.type);
+    setPrivacy(selectedUser.visibility);
+    setTimeToComplete(selectedUser.timeToComplete);
+    setSearchId(selectedUser.id);
+
+    // 🔑 Focus the type dropdown
+    if (typeRef?.current) {
+      typeRef.current.focus();
+    }
+
+    console.log("✏️ Editing:", selectedUser);
+  };
 
   return (
     <div className="section3">
@@ -21,24 +54,20 @@ const AllPastes = ({ search, users,updateuser,setupdateUser,searchid,setSearchid
       <div className="allPastes">
         {selectedUser ? (
           <>
-            {/* <h3>Selected Title's Content</h3> */}
             <div className="title_lastSec">
-              <h2 style={{color:"orange"}}> {search}</h2>
-            <p><strong>Description:</strong> {selectedUser.descrip}</p>
+              <h2 style={{ color: "orange" }}>{selectedUser.title}</h2>
+              <p><strong>Description:</strong> {selectedUser.descrip}</p>
             </div>
-           <div className="lastSec_options">
+
+            <div className="lastSec_options">
               <div className="Final_favicons">
-                <i className=" edit finalicons fa-solid fa-pen" ></i>
-                <i className="finalicons fa-solid fa-trash"></i>
+                <i className="edit finalicons fa-solid fa-pen" onClick={handleEditClick}></i>
+                <i className="delete finalicons fa-solid fa-trash" onClick={handleDelete}></i>
                 <i className="finalicons fa-solid fa-eye"></i>
                 <i className="finalicons fa-solid fa-copy favcopy"></i>
               </div>
               <h4>Time to Complete: {selectedUser.timeToComplete}</h4>
-           </div>
-           
-            {/* <p><strong>Type:</strong> {selectedUser.type}</p>
-            <p><strong>Visibility:</strong> {selectedUser.visibility}</p>
-             */}
+            </div>
           </>
         ) : (
           <h3>Select a title</h3>
